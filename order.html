@@ -1,0 +1,36 @@
+<!doctype html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>تفاصيل الطلب</title><link rel="stylesheet" href="styles.css"/></head>
+<body>
+<header class="topbar noPrint"><h2>تفاصيل الطلب</h2>
+<div class="topbarActions">
+<a class="link" href="sales.html" id="goSales" style="display:none">المبيعات</a>
+<a class="link" href="warehouse.html" id="goWarehouse" style="display:none">المخازن</a>
+<a class="link" href="admin.html" id="goAdmin" style="display:none">الأدمن</a>
+<button id="btnPrint" class="btnSecondary">طباعة</button>
+<button id="btnLogout" class="btnSecondary">خروج</button></div></header>
+<main class="container">
+<div class="card" id="headerCard"></div>
+<div class="card">
+<div class="row"><h3 class="grow">الأصناف</h3>
+<button id="btnEditOrder" class="btnSecondary noPrint" style="width:auto;display:none">تعديل</button>
+<button id="btnDeleteOrder" class="btnDanger noPrint" style="width:auto;display:none">حذف</button></div>
+<div id="itemsTable"></div>
+<hr/>
+<div class="row noPrint" id="warehouseActions" style="display:none">
+<button id="btnConfirmDelivery" style="width:auto"></button>
+</div>
+<p id="msg" class="msg"></p>
+<p class="muted small noPrint">التسليم متعدد المرات + خصم المخزون عبر Transaction (بدون Functions).</p>
+</div>
+<div class="card"><h3>التسليمات</h3><div id="deliveriesTable"></div></div>
+<div class="modalBack" id="modalBack"><div class="modal">
+<div class="row" style="justify-content:space-between"><h3 id="modalTitle">Modal</h3>
+<button id="btnModalClose" class="btnSecondary" style="width:auto">إغلاق</button></div>
+<div id="modalBody"></div></div></div>
+</main>
+<script type="module" src="firebase.js"></script>
+<script type="module" src="guard.js"></script>
+<script type="module" src="utils.js"></script>
+<script type="module" src="order.js"></script>
+</body></html>

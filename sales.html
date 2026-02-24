@@ -1,0 +1,65 @@
+<!doctype html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>المبيعات</title><link rel="stylesheet" href="styles.css"/></head>
+<body>
+<header class="topbar noPrint"><h2>المبيعات</h2>
+<div class="topbarActions"><a class="link" href="admin.html" id="goAdmin" style="display:none">الأدمن</a>
+<button id="btnLogout" class="btnSecondary">خروج</button></div></header>
+<main class="container" style="padding-bottom:76px">
+<div class="card">
+<div class="row">
+<input id="searchCustomer" class="grow" placeholder="بحث باسم العميل أو رقم الطلب..."/>
+<button id="btnRefresh" class="btnSecondary" style="width:auto">تحديث</button>
+</div>
+<div class="chips">
+<div class="chip active" data-filter="all" id="sfAll"></div>
+<div class="chip" data-filter="PARTIAL" id="sfPartial"></div>
+<div class="chip" data-filter="OPEN0" id="sfOpen0"></div>
+<div class="chip" data-filter="COMPLETE" id="sfComplete"></div>
+</div>
+<div class="kpi" id="kpi"></div>
+<div id="ordersTable"></div>
+</div>
+
+<div class="card">
+<h3>إضافة طلبية (جدول أصناف)</h3>
+<div class="grid3">
+<input id="orderCode" placeholder="orderCode (O1001)"/>
+<input id="customerCode" placeholder="customerCode (C001)"/>
+<input id="customerName" placeholder="اسم العميل"/>
+</div>
+<div class="row">
+<input id="orderDate" type="date" class="grow"/>
+<input id="notes" class="grow" placeholder="ملاحظات"/>
+</div>
+<div class="row">
+<input id="productCode" class="grow" placeholder="productCode (صنف/موديل)"/>
+<input id="requiredQty" type="number" min="0" placeholder="الكمية" style="max-width:220px"/>
+<button id="btnAddItem" class="btnSecondary" style="width:auto"></button>
+</div>
+<div id="itemsTable" class="muted small"></div>
+<div class="row">
+<button id="btnCreateOrder" class="grow"></button>
+<button id="btnClear" class="btnSecondary" style="width:auto"></button>
+</div>
+<p id="msg" class="msg"></p>
+</div>
+
+<div class="modalBack" id="modalBack"><div class="modal">
+<div class="row" style="justify-content:space-between"><h3 id="modalTitle">Modal</h3>
+<button id="btnModalClose" class="btnSecondary" style="width:auto">إغلاق</button></div>
+<div id="modalBody"></div></div></div>
+</main>
+
+<div class="stickyBottom noPrint">
+  <div class="row">
+    <button id="btnSendToWarehouse" class="btnWarn grow"></button>
+    <button id="btnClearSelection" class="btnSecondary" style="width:auto"></button>
+  </div>
+</div>
+
+<script type="module" src="firebase.js"></script>
+<script type="module" src="guard.js"></script>
+<script type="module" src="utils.js"></script>
+<script type="module" src="sales.js"></script>
+</body></html>
