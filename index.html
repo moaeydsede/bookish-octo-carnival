@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ordered Pro</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Ordered Pro</h1>
+    <p class="muted">تسجيل الدخول</p>
+
+    <div class="card">
+      <label>الإيميل</label>
+      <input id="email" type="email" placeholder="name@email.com" autocomplete="username" />
+
+      <label>كلمة المرور</label>
+      <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" />
+
+      <div class="row">
+        <button id="btnLogin" class="grow" style="margin-top:0">دخول</button>
+        <button class="btnSecondary" id="btnLogout" style="display:none;margin-top:0">تسجيل خروج</button>
+      </div>
+
+      <p id="msg" class="msg"></p>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <span>تثبيت على الموبايل (PWA)</span>
+        <button class="btnSecondary" id="btnInstall" disabled style="margin-top:0">تثبيت</button>
+      </div>
+      <p class="muted small">إذا ظهر زر “تثبيت”، اضغطه. أو من المتصفح: Add to Home Screen.</p>
+    </div>
+
+    <div class="card">
+      <p class="muted small">
+        مهم: في Firebase Auth → Authorized domains أضف دومين GitHub Pages تبعك.
+      </p>
+    </div>
+  </div>
+
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="app.js"></script>
+  <script src="sw-register.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>المخازن</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar noPrint">
+    <h2>المخازن</h2>
+    <div class="topbarActions">
+      <a class="link" href="order.html" id="goOrder" style="display:none">فتح طلب</a>
+      <button id="btnLogout" class="btnSecondary" style="margin-top:0">خروج</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <div class="row">
+        <input id="search" class="grow" placeholder="بحث باسم العميل..." />
+        <select id="statusFilter" style="max-width:260px">
+          <option value="all">الكل</option>
+          <option value="OPEN">OPEN</option>
+          <option value="PARTIAL">PARTIAL</option>
+          <option value="COMPLETE">COMPLETE</option>
+        </select>
+        <button id="btnRefresh" class="btnSecondary" style="margin-top:0">تحديث</button>
+      </div>
+      <div id="ordersTable"></div>
+      <p class="muted small">اضغط على رقم الطلب للدخول للتجهيز/التسليم.</p>
+    </div>
+  </main>
+
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="guard.js"></script>
+  <script type="module" src="utils.js"></script>
+  <script type="module" src="warehouse.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>المبيعات</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar noPrint">
+    <h2>المبيعات</h2>
+    <div class="topbarActions">
+      <a class="link" href="admin.html" id="goAdmin" style="display:none">الأدمن</a>
+      <button id="btnLogout" class="btnSecondary" style="margin-top:0">خروج</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <div class="row">
+        <input id="searchCustomer" class="grow" placeholder="بحث باسم العميل..." />
+        <select id="filterReady" style="max-width:260px">
+          <option value="all">الكل</option>
+          <option value="readyAny">جاهز (جزئي)</option>
+          <option value="readyFull">جاهز بالكامل</option>
+          <option value="notready">غير جاهز</option>
+        </select>
+        <button id="btnRefresh" class="btnSecondary" style="margin-top:0">تحديث</button>
+      </div>
+
+      <div class="kpi" id="kpi"></div>
+      <div id="ordersTable"></div>
+      <p class="muted small">اضغط على رقم الطلب لفتح التفاصيل/الطباعة.</p>
+    </div>
+
+    <div class="card">
+      <h3>إضافة طلبية</h3>
+      <div class="grid3">
+        <input id="orderCode" placeholder="orderCode (مثال: O1001) - فريد" />
+        <input id="customerCode" placeholder="customerCode (مثال: C001)" />
+        <input id="customerName" placeholder="اسم العميل (عرض)" />
+      </div>
+
+      <div class="row">
+        <input id="orderDate" type="date" class="grow" />
+        <input id="notes" class="grow" placeholder="ملاحظات" />
+      </div>
+
+      <div class="row">
+        <input id="productCode" class="grow" placeholder="productCode (موديل)" />
+        <input id="requiredQty" type="number" min="0" placeholder="الكمية المطلوبة" style="max-width:220px" />
+        <button id="btnAddItem" class="btnSecondary" style="margin-top:0;max-width:160px">إضافة</button>
+      </div>
+
+      <div id="itemsList" class="muted small"></div>
+
+      <div class="row">
+        <button id="btnCreateOrder" class="grow" style="margin-top:0">حفظ الطلبية</button>
+        <button id="btnClear" class="btnSecondary" style="margin-top:0;max-width:160px">تفريغ</button>
+      </div>
+      <p id="msg" class="msg"></p>
+    </div>
+  </main>
+
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="guard.js"></script>
+  <script type="module" src="utils.js"></script>
+  <script type="module" src="sales.js"></script>
+</body>
+</html>
