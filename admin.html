@@ -1,0 +1,129 @@
+<!doctype html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>الأدمن</title><link rel="stylesheet" href="styles.css"/>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script src="./config.js"></script>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    try {
+      const cfg = window.ORDERED_CONFIG || {};
+      await OneSignal.init({
+        appId: cfg.oneSignalAppId || "608f0f9d-654f-4b55-946c-180d79c93a38",
+        serviceWorkerParam: { scope: "/" },
+        serviceWorkerPath: "OneSignalSDKWorker.js",
+        allowLocalhostAsSecureOrigin: true,
+      });
+    } catch (e) {
+      console.warn("OneSignal init failed", e);
+    }
+  });
+</script>
+
+</head>
+<body>
+<header class="topbar noPrint"><h2>لوحة الأدمن</h2>
+<div class="topbarActions"><button id="btnMenu" class="btnSecondary menuBtn" title="القائمة">☰</button><a class="link" href="sales.html">المبيعات</a><a class="link" href="warehouse.html">المخازن</a>
+<button id="btnLogout" class="btnSecondary">خروج</button></div></header>
+<main class="container">
+<div class="card noPrint"><div class="chips">
+<div class="chip active" data-tab="orders" id="tabOrders"></div>
+<div class="chip" data-tab="customers" id="tabCustomers"></div>
+<div class="chip" data-tab="products" id="tabProducts"></div>
+<div class="chip" data-tab="excel" id="tabExcel"></div>
+<div class="chip" data-tab="audit" id="tabAudit"></div>
+</div></div>
+
+<section id="sectionOrders">
+<div class="card">
+<div class="row"><div class="grow"><h3>إدارة الطلبيات</h3><div class="muted small">ضغط على عميل/طلب → تفاصيل مع تعديل/حذف.</div></div>
+<input id="ordersSearch" class="grow" placeholder="بحث: اسم العميل / orderCode"/>
+<button id="btnOrdersRefresh" class="btnSecondary" style="width:auto">تحديث</button></div>
+<div class="chips">
+<div class="chip active" data-filter="all" id="fAll"></div>
+<div class="chip" data-filter="COMPLETE" id="fComplete"></div>
+<div class="chip" data-filter="PARTIAL" id="fPartial"></div>
+<div class="chip" data-filter="OPEN0" id="fOpen0"></div>
+</div>
+<div class="kpi" id="ordersKpi"></div>
+<div id="ordersTable"></div>
+</div></section>
+
+<section id="sectionCustomers" style="display:none">
+<div class="card">
+<div class="row"><div class="grow"><h3>العملاء</h3><div class="muted small">إضافة / تعديل / حذف — وعند الضغط على العميل تظهر طلبياته.</div></div>
+<input id="custSearch" class="grow" placeholder="بحث باسم العميل..."/>
+<button id="btnCustRefresh" class="btnSecondary" style="width:auto">تحديث</button></div>
+<div class="grid3">
+<input id="customerCode" placeholder="customerCode (C001)"/><input id="customerName" placeholder="اسم العميل"/>
+<input id="customerPhone" placeholder="هاتف (اختياري)"/></div>
+<div class="row"><input id="customerAddress" class="grow" placeholder="عنوان (اختياري)"/>
+<button id="btnSaveCustomer" style="width:auto"></button></div>
+<p id="custMsg" class="msg"></p>
+<div id="customersTable"></div>
+</div></section>
+
+
+<section id="sectionProducts" style="display:none">
+<div class="card">
+<div class="row"><div class="grow"><h3>المواد / الأصناف</h3><div class="muted small">تعريف الأصناف من داخل البرنامج + تعديل/حذف.</div></div>
+<input id="prodSearch" class="grow" placeholder="بحث: رقم الموديل أو الاسم..."/>
+<button id="btnProdRefresh" class="btnSecondary" style="width:auto">تحديث</button></div>
+
+<div class="grid3">
+<input id="productCode" placeholder="productCode (M1001)"/>
+<input id="modelName" placeholder="اسم الموديل"/>
+<input id="category" placeholder="تصنيف (اختياري)"/>
+</div>
+<div class="row">
+<button id="btnSaveProduct" style="width:auto"></button>
+<button id="btnClearProduct" class="btnSecondary" style="width:auto">تفريغ</button>
+</div>
+<p id="prodMsg" class="msg"></p>
+<div id="productsTable"></div>
+</div></section>
+
+<section id="sectionExcel" style="display:none">
+<div class="card">
+<h3>مركز Excel</h3>
+<div class="muted small">Sheets: Customers / Products / Inventory / Orders / OrderItems</div>
+<div class="row"><input id="excelFile" type="file" accept=".xlsx,.xls" class="grow"/>
+<button id="btnPreview" class="btnSecondary" style="width:auto"></button>
+<button id="btnApply" style="width:auto"></button>
+<button id="btnExport" class="btnSecondary" style="width:auto"></button></div>
+<pre id="previewBox" class="pre"></pre><p id="excelMsg" class="msg"></p>
+</div></section>
+
+<section id="sectionAudit" style="display:none">
+<div class="card">
+<div class="row"><div class="grow"><h3>شاشة العمليات</h3><div class="muted small">مراقبة: إنشاء/تعديل/حذف/إرسال/تسليم…</div></div>
+<input id="auditSearch" class="grow" placeholder="بحث..."/>
+<button id="btnAuditRefresh" class="btnSecondary" style="width:auto">تحديث</button></div>
+<div id="auditTable"></div>
+</div></section>
+
+<div class="modalBack" id="modalBack"><div class="modal">
+<div class="row" style="justify-content:space-between"><h3 id="modalTitle">Modal</h3>
+<button id="btnModalClose" class="btnSecondary" style="width:auto">إغلاق</button></div>
+<div id="modalBody"></div></div></div>
+</main>
+<script type="module" src="firebase.js"></script>
+<script type="module" src="guard.js"></script>
+<script type="module" src="utils.js"></script>
+<script type="module" src="admin.js"></script>
+
+<div class="menuBack noPrint" id="menuBack">
+  <div class="menuPanel" role="dialog" aria-modal="true">
+    <div class="row" style="justify-content:space-between;align-items:center">
+      <h3 style="margin:0">تصنيفات الطلبات</h3>
+      <button id="btnMenuClose" class="btnSecondary" style="width:auto">إغلاق</button>
+    </div>
+    <div class="menuItem" data-filter="all"><span>📋</span><div class="right">الطلبات</div></div>
+    <div class="menuItem" data-filter="OPEN0"><span>⚡</span><div class="right">لم يُسلم شيء</div></div>
+    <div class="menuItem" data-filter="PARTIAL"><span>🚚</span><div class="right">قيد التسليم</div></div>
+    <div class="menuItem" data-filter="COMPLETE"><span>✅</span><div class="right">المنتهية</div></div>
+  </div>
+</div>
+
+</body></html>

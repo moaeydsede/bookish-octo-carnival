@@ -1,0 +1,99 @@
+<!doctype html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>المبيعات</title><link rel="stylesheet" href="styles.css"/>
+<script src="./config.js"></script>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    try {
+      const cfg = window.ORDERED_CONFIG || {};
+      await OneSignal.init({
+        appId: cfg.oneSignalAppId || "608f0f9d-654f-4b55-946c-180d79c93a38",
+        serviceWorkerParam: { scope: "/" },
+        serviceWorkerPath: "OneSignalSDKWorker.js",
+        allowLocalhostAsSecureOrigin: true,
+      });
+    } catch (e) {
+      console.warn("OneSignal init failed", e);
+    }
+  });
+</script>
+
+</head>
+<body>
+<header class="topbar noPrint"><h2>المبيعات</h2>
+<div class="topbarActions"><button id="btnMenu" class="btnSecondary menuBtn" title="القائمة">☰</button><a class="link" href="admin.html" id="goAdmin" style="display:none">الأدمن</a>
+<button id="btnLogout" class="btnSecondary">خروج</button></div></header>
+<main class="container" style="padding-bottom:76px">
+<div class="card">
+<div class="row">
+<input id="searchCustomer" class="grow" placeholder="بحث باسم العميل أو رقم الطلب..."/>
+<button id="btnRefresh" class="btnSecondary" style="width:auto">تحديث</button>
+</div>
+<div class="chips">
+<div class="chip active" data-filter="all" id="sfAll"></div>
+<div class="chip" data-filter="PARTIAL" id="sfPartial"></div>
+<div class="chip" data-filter="OPEN0" id="sfOpen0"></div>
+<div class="chip" data-filter="COMPLETE" id="sfComplete"></div>
+</div>
+<div class="kpi" id="kpi"></div>
+<div id="ordersTable"></div>
+</div>
+
+<div class="card">
+<h3>إضافة طلبية (جدول أصناف)</h3>
+<div class="grid3">
+<input id="orderCode" placeholder="orderCode (O1001)"/>
+<div><label class="muted small">العميل</label><input id="customerSearchBox" placeholder="بحث بالعميل (مثال: عامر)" style="margin-bottom:8px"/><select id="customerSelect"></select></div>
+<input id="customerName" placeholder="اسم العميل" style="display:none"/>
+</div>
+<div class="row">
+<input id="orderDate" type="date" class="grow"/>
+<input id="notes" class="grow" placeholder="ملاحظات"/>
+</div>
+<div class="row">
+<div class="grow"><input id="productCode" list="productsDatalist" placeholder="رقم الموديل (اكتب وسيظهر الاسم تلقائياً)"/><datalist id="productsDatalist"></datalist><div class="muted small" id="productNameHint"></div></div>
+<input id="requiredQty" type="number" min="0" placeholder="الكمية" style="max-width:220px"/>
+<button id="btnAddItem" class="btnSecondary" style="width:auto"></button>
+</div>
+<div id="itemsTable" class="muted small"></div>
+<div class="row">
+<button id="btnCreateOrder" class="grow"></button>
+<button id="btnClear" class="btnSecondary" style="width:auto"></button>
+</div>
+<p id="msg" class="msg"></p>
+</div>
+
+<div class="modalBack" id="modalBack"><div class="modal">
+<div class="row" style="justify-content:space-between"><h3 id="modalTitle">Modal</h3>
+<button id="btnModalClose" class="btnSecondary" style="width:auto">إغلاق</button></div>
+<div id="modalBody"></div></div></div>
+</main>
+
+<div class="stickyBottom noPrint">
+  <div class="row">
+    <button id="btnSendToWarehouse" class="btnWarn grow"></button>
+    <button id="btnClearSelection" class="btnSecondary" style="width:auto"></button>
+  </div>
+</div>
+
+<script type="module" src="firebase.js"></script>
+<script type="module" src="guard.js"></script>
+<script type="module" src="utils.js"></script>
+<script type="module" src="sales.js"></script>
+
+<div class="menuBack noPrint" id="menuBack">
+  <div class="menuPanel" role="dialog" aria-modal="true">
+    <div class="row" style="justify-content:space-between;align-items:center">
+      <h3 style="margin:0">تصنيفات الطلبات</h3>
+      <button id="btnMenuClose" class="btnSecondary" style="width:auto">إغلاق</button>
+    </div>
+    <div class="menuItem" data-filter="all"><span>📋</span><div class="right">الطلبات</div></div>
+    <div class="menuItem" data-filter="OPEN0"><span>⚡</span><div class="right">لم يُسلم شيء</div></div>
+    <div class="menuItem" data-filter="PARTIAL"><span>🚚</span><div class="right">قيد التسليم</div></div>
+    <div class="menuItem" data-filter="COMPLETE"><span>✅</span><div class="right">المنتهية</div></div>
+  </div>
+</div>
+
+</body></html>

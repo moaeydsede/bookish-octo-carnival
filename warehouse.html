@@ -1,0 +1,54 @@
+<!doctype html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>المخازن</title><link rel="stylesheet" href="styles.css"/>
+<script src="./config.js"></script>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    try {
+      const cfg = window.ORDERED_CONFIG || {};
+      await OneSignal.init({
+        appId: cfg.oneSignalAppId || "608f0f9d-654f-4b55-946c-180d79c93a38",
+        serviceWorkerParam: { scope: "/" },
+        serviceWorkerPath: "OneSignalSDKWorker.js",
+        allowLocalhostAsSecureOrigin: true,
+      });
+    } catch (e) {
+      console.warn("OneSignal init failed", e);
+    }
+  });
+</script>
+
+</head>
+<body>
+<header class="topbar noPrint"><h2>المخازن</h2>
+<div class="topbarActions"><a class="link" href="admin.html" id="goAdmin" style="display:none">الأدمن</a>
+<button id="btnLogout" class="btnSecondary">خروج</button></div></header>
+<main class="container">
+
+<div class="card noPrint" style="margin-bottom:12px">
+  <div class="row" style="justify-content:space-between;align-items:center">
+    <div>
+      <h3 style="margin:0">إشعارات المخزن</h3>
+      <div class="muted small">لأول مرة فقط: اضغط تفعيل ثم Allow.</div>
+    </div>
+    <div class="row" style="margin:0">
+      <button id="btnEnableWarehousePush" class="btnSecondary" style="width:auto">🔔 تفعيل الإشعارات</button>
+      <button id="btnDisableWarehousePush" class="btnSecondary" style="width:auto">🔕 إلغاء</button>
+    </div>
+  </div>
+  <div id="pushState" class="muted small" style="margin-top:8px"></div>
+</div>
+
+<div class="card">
+<div class="row"><div class="grow"><h3>طلبات التجهيز</h3><div class="muted small">طلبات وصلت من المبيعات. افتح الطلب ثم سلّم وخصم.</div></div>
+<button id="btnRefresh" class="btnSecondary" style="width:auto">تحديث</button></div>
+<div id="prepTable"></div>
+</div>
+</main>
+<script type="module" src="firebase.js"></script>
+<script type="module" src="guard.js"></script>
+<script type="module" src="utils.js"></script>
+<script type="module" src="warehouse.js"></script>
+</body></html>
